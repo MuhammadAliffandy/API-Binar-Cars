@@ -9,7 +9,7 @@
   "routes": [
     {
       "src": "/cars/(.*)",
-      "dest": "/src/api/cars/$1"
+      "dest": "./src/api/cars/$1"
     },
     {
       "src": "/(.*)",
