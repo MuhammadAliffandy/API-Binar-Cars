@@ -44,22 +44,37 @@ class Car {
     
     create = async(body) => {
         const data = await this.generateData();
+
+        if(Array.isArray(body)){
+            const newData = [];
+            body.map((car)=>{
+                const inputData = { id :  uuidv4() , ...car };
+                data.push(inputData);
+                newData.push(inputData);
+            })
+            return newData;
+        }
+        
         const inputData = { id :  uuidv4() , ...body };
         data.push(inputData);
         this.changedData(data)
-        return data;
+        return inputData;
     }
     
     update = async(params , body) => {
         const data = await this.generateData();
+        const dataCreated = [];
         const newData = data.map((car) => {
             if( car.id == params ){
-                return body;
+                Object.keys(body).map((key)=>{
+                    car[key] = body[key];
+                })
+                dataCreated.push(car)
             }
             return car;
         })
         this.changedData(newData);
-        return data;
+        return dataCreated;
     }
     
     delete = async (params) => {
